@@ -1,7 +1,6 @@
 package AcceptanceTest;
 
 import SocialNetwork.*;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
@@ -15,10 +14,12 @@ public class SocialNetworkAcceptanceShould {
     ParseCommand parseCommand;
     Users users;
 
+
     @BeforeEach
     public void init(){
         outputConsole = mock(OutputConsole.class);
         users = new Users();
+
         parseCommand = new ParseCommand(outputConsole, users);
         socialNetWorkApp = new SocialNetWorkApp(parseCommand);
         inOrder = inOrder(outputConsole);
@@ -29,6 +30,7 @@ public class SocialNetworkAcceptanceShould {
         //POST-READ//
         socialNetWorkApp.inputCommand("Sandra -> Good afternoon");
         socialNetWorkApp.inputCommand("Sandra -> Nice to meet you");
+
         socialNetWorkApp.inputCommand("Sandra");
 
         inOrder.verify(outputConsole).printLine("Good afternoon");
@@ -41,7 +43,7 @@ public class SocialNetworkAcceptanceShould {
         //POSTS
         socialNetWorkApp.inputCommand("Miriam -> Hola team");
         socialNetWorkApp.inputCommand("Sandra -> Good afternoon");
-        socialNetWorkApp.inputCommand("Sandra -> Good afternoon");
+        socialNetWorkApp.inputCommand("Sandra -> Nice to meet you");
         //FOLLOWS
         socialNetWorkApp.inputCommand("Miriam follows Sandra");
         //WALL

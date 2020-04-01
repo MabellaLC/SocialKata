@@ -12,6 +12,7 @@ import static org.mockito.Mockito.*;
 public class ParseCommandShould_2Step {
     OutputConsole consoleOutput;
     Users users;
+
     @BeforeEach
     public void init(){
         consoleOutput = mock(OutputConsole.class);
@@ -32,7 +33,7 @@ public class ParseCommandShould_2Step {
     }
 
     @Test
-    public void test(){
+    public void check_process_command_read(){
         //mockeamos users para falsear el contenido de la clase
         users = mock(Users.class);
         //creamos una fake list de post que sera el retorno de la función findPostUser
@@ -62,15 +63,49 @@ public class ParseCommandShould_2Step {
     }
 
 
-    /*@Test
+    @Test
     public void check_process_command_follow(){
-        Friends friends = mock(Friends.class);
+        users = mock(Users.class);
 
-        ParseCommand parseCommand = new ParseCommand(consoleOutput, users, friends);
+        User user1 = new User("Miriam");
+        User user2 = new User("Sandra");
+
+        when(users.findUser(any())).thenReturn(user1, user2);
+
+        ParseCommand parseCommand = new ParseCommand(consoleOutput, users);
+
         parseCommand.parseCommand("Miriam follows Sandra");
 
         //users como command, no hay queries
-        verify(friends).addFriend("Sandra");
-    }*/
+        verify(users).addFriend(new User("Miriam"),new User("Sandra"));
+    }
+
+    @Test
+    public void check_process_command_wall(){
+        //mockeamos users para falsear el contenido de la clase
+        users = mock(Users.class);
+        //creamos una fake list de post que sera el retorno de la función findAllPostForWall
+        List<Post> postList = new ArrayList<>();
+        postList.add(new Post("Mimi - Hola team"));
+        postList.add(new Post("Sandra - How are you?"));
+        //fake de la función de findAllPostForWall amb el seu retorn sense implementar a la clase, ja que fem mock
+        //en este momento esta función retorna una ¡Excepción!
+        when(users.findAllPostForWall(new User("Miriam"))).thenReturn(postList);
+
+        //pasem comandos
+        ParseCommand parseCommand = new ParseCommand(consoleOutput, users);
+        //introducimos varios post de dos usuarios
+        parseCommand.parseCommand("Miriam -> Hola team");
+        //añadimos sandra a la lista de amigos
+        parseCommand.parseCommand("Miriam follows Sandra");
+        parseCommand.parseCommand("Sandra -> How are you?");
+        //nombre + wall nos deberia retornar una lista de post de todos los amigos y la mia propia
+        //si no existe el usuario no devuelve nada
+        parseCommand.parseCommand("Miriam wall");
+
+
+        verify(consoleOutput).printLine("Miriam - Hola team");
+        verify(consoleOutput).printLine("Sandra - How are you?");
+    }
 
 }

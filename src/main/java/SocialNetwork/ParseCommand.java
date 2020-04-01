@@ -7,12 +7,12 @@ public class ParseCommand {
     //Delega a otras clases para que hagan sus operaciones
     private final String POST_SYMBOL = " -> ";
     private final String FOLLOWS_SYMBOL = " follows ";
+    private final String WALL_SYMBOL = " wall ";
 
     private OutputConsole console;
     private Users users;
 
     public ParseCommand(OutputConsole console, Users users) {
-
         this.console = console;
         this.users = users;
     }
@@ -30,6 +30,32 @@ public class ParseCommand {
             return;
         }
 
+        if (commando.contains(FOLLOWS_SYMBOL)){
+            //Dividimos input
+            String[] splitCommand = commando.split(FOLLOWS_SYMBOL);
+            String userName1 = splitCommand[0];
+            String userName2 = splitCommand[1];
+            User user1 = users.findUser(new User(userName1));
+            User user2 = users.findUser(new User(userName2));
+            //Delegamos a friends
+            users.addFriend(user1,user2);
+            return;
+        }
+
+        if (commando.contains(WALL_SYMBOL)){
+            //Dividimos input
+            String[] splitCommand = commando.split(WALL_SYMBOL);
+            String userName = splitCommand[0];
+            User user = new User(userName);
+            //Delegamos a users para gestionar wall de user
+            List<Post> userPostWall = users.findAllPostForWall(user);
+
+            for (Post post: userPostWall) {
+                console.printLine(post.toString());
+            }
+            return;
+        }
+
         //asumo que el comando es el nombre del usuario y quiero imprimir los posts
         User userCommando = new User(commando);
         //retorno una lista de post para este nombre de usuario
@@ -38,8 +64,6 @@ public class ParseCommand {
         for (Post post: userPosts) {
             console.printLine(post.toString());
         }
-        //mirar si usuario existe y cargar sus posts en orden inverso(reverse)
-        //imprimir posts en orden inverso
     }
 }
 

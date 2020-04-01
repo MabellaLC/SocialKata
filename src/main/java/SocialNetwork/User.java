@@ -8,6 +8,7 @@ public class User {
 
     private String userName;
     List<Post> postUserList = new ArrayList<>();
+    List<Friend> friendUserList = new ArrayList<>();
 
     public User (String userName){
         this.userName = userName;
@@ -18,10 +19,26 @@ public class User {
             postUserList.add(post);
     }
 
+    public void addFriend(Friend userFriend){
+        //add a una llista de friends el usuari
+        friendUserList.add(userFriend);
+
+    }
+    public List<Post> friendsPostList(){
+        for (Friend userFriend : friendUserList) {
+            return userFriend.friendsPostList();
+        }
+        return null;
+    }
+
+
+
     public List<Post> getPosts(){
         return new ArrayList<Post>(postUserList);
     }
+    public List<Friend> getFriends() {
 
+        return new ArrayList<Friend>(friendUserList);}
 
 
 

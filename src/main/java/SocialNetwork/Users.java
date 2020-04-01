@@ -13,7 +13,6 @@ public class Users {
             User newUser = new User(userName);
             userList.add(newUser);
         }
-
         for (User user : userList){
             if (user.equals(new User(userName))){
                 user.addPost(new Post(postMessage));
@@ -22,18 +21,35 @@ public class Users {
     }
 
 
-    public User findUser(User user) {
-        //li paso user comando
-        //aquest usercomando busca a la llista de users si aquest nome de user existeix
-        //si existeix em quedo el user que ja hi es a la llista
-        throw new UnsupportedOperationException();
+    public User findUser(User userComando) { //li paso user comando
+        //aquest usercomando busca a la llista de users si aquest nomede user existeix
+        int indexOfUser = userList.indexOf(userComando);
+        if(indexOfUser == -1){
+            return null;
+        }
+        return userList.get(indexOfUser);
     }
 
     public List<Post> findPostUser(User userCommando) {
-        throw new UnsupportedOperationException();
+        User user = findUser(userCommando);
+        return user.getPosts();
     }
 
-    public List<User> getList (){
+    public void addFriend(User user1, User user2) {
+        //tenim user1 add user2 a una llista de friends
+        user1.addFriend(new Friend(user2));
+    }
+
+
+    public List<Post> findAllPostForWall(User userName) {
+        //miramos si este user tiene amigos y cargamos sus post
+        User user = findUser(userName);
+
+        return user.friendsPostList();
+        //throw new UnsupportedOperationException();
+    }
+
+    public List<User> getUserList(){
         return new ArrayList<User>(userList); //copia exacta de array de users (no es getter exacte)
                                 //immutabilitat, al fer new no podriem modificar la llista real
         }
