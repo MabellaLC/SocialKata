@@ -2,17 +2,15 @@ package SocialNetwork;
 
 public class SocialNetWorkApp {
 
-    private Posts postsUser;
-    private OutputConsole outputConsole;
-    private InputCommand inputCommand;
+    private ParseCommand parseCommand;
 
-    public SocialNetWorkApp(Posts postsUser, OutputConsole outputConsole, InputCommand inputCommand){
-        this.postsUser = postsUser;
-        this.outputConsole = outputConsole;
-        this.inputCommand = inputCommand;
+    public SocialNetWorkApp(ParseCommand parseCommand){
+        this.parseCommand = parseCommand;
     }
 
+    public void inputCommand(String command) {
+        parseCommand.parseCommand(command);
 
-    public void inputCommand(String inputCommand) {
     }
+
 }
