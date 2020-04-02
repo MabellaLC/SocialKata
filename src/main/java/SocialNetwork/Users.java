@@ -15,7 +15,7 @@ public class Users {
         }
         for (User user : userList){
             if (user.equals(new User(userName))){
-                user.addPost(new Post(postMessage));
+                user.addPost(new Post(postMessage, userName));
             }
         }
     }
@@ -42,10 +42,10 @@ public class Users {
 
 
     public List<Post> findAllPostForWall(User userName) {
-        //miramos si este user tiene amigos y cargamos sus post
-        User user = findUser(userName);
+        User user = findUser(userName); //existe?
+        //user.getFriends();//tiene amigos?
 
-        return user.friendsPostList();
+        return user.allPostsForWall();
         //throw new UnsupportedOperationException();
     }
 

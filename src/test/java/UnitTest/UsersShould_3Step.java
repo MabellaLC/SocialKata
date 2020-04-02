@@ -21,7 +21,7 @@ public class UsersShould_3Step {
 
         //esperamos que coincida con este userName, y le añadimos un post, asi testeamos que se añada
         User userExpected = new User("Miriam");
-        userExpected.addPost(new Post("Hola team"));
+        userExpected.addPost(new Post("Hola team", "Miriam"));
 
         //miramos que la lista de usuarios contiene este userExpected
         assertTrue(users.getUserList().contains(userExpected));
@@ -34,18 +34,16 @@ public class UsersShould_3Step {
 
     @Test
     public void check_if_userName_has_a_list_of_posts(){
-
         Users users = new Users();
         users.addPost("Hola team","Miriam");
         users.addPost("How are you?","Miriam");
 
         User userExpected = new User("Miriam");
-        userExpected.addPost(new Post("Hola team"));
-        userExpected.addPost(new Post("How are you?"));
+        userExpected.addPost(new Post("Hola team","Miriam"));
+        userExpected.addPost(new Post("How are you?","Miriam"));
 
         User user = users.getUserList().get(0);
         assertEquals(users.findPostUser(userExpected), user.getPosts());
-
     }
 
     @Test
@@ -59,21 +57,47 @@ public class UsersShould_3Step {
 
         assertEquals(miriamUser.getFriends(), userMimi.getFriends());
     }
+
     @Test
-    public void test(){
+    public void check_if_user_have_the_posts_of_her_friend(){
         Users users = new Users();
         users.addPost("Hola team","Miriam");
         users.addPost("How are you?","Sandra");
+        User mimiUser = users.findUser(new User("Miriam"));
+        User sanUser = users.findUser((new User("Sandra")));
+        users.addFriend(mimiUser, sanUser);
 
         User miriamUser = new User("Miriam");
-        miriamUser.addPost(new Post("Hola team"));
+        miriamUser.addPost(new Post("Hola team", "Miriam"));
         User sandraUser = new User("Sandra");
-        sandraUser.addPost(new Post("How are you?"));
-
         miriamUser.addFriend(new Friend(sandraUser));
+        sandraUser.addPost(new Post("How are you?", "Sandra"));
 
+        assertEquals(users.findAllPostForWall(miriamUser), miriamUser.allPostsForWall());
+    }
 
-        //assertEquals(users.findAllPostForWall(miriamUser), );
+    @Test
+    public void check_if_user_have_the_posts_of_her_multiple_friends(){
+        Users users = new Users();
+        users.addPost("Hola team","Miriam");
+        users.addPost("Ei","Xavi");
+        users.addPost("How are you?","Sandra");
+        User mimiUser = users.findUser(new User("Miriam"));
+        User xaviUser = users.findUser((new User("Xavi")));
+        User sanUser = users.findUser((new User("Sandra")));
+        users.addFriend(mimiUser, sanUser);
+        users.addFriend(mimiUser, xaviUser);
+
+        User miriamUser = new User("Miriam");
+        miriamUser.addPost(new Post("Hola team", "Miriam"));
+        User sandraUser = new User("Sandra");
+        miriamUser.addFriend(new Friend(sandraUser));
+        sandraUser.addPost(new Post("How are you?", "Sandra"));
+        User xavierUser = new User("Xavi");
+        miriamUser.addFriend(new Friend(xavierUser));
+        sandraUser.addPost(new Post("Ei", "Xavi"));
+
+        assertEquals(users.findAllPostForWall(miriamUser), miriamUser.allPostsForWall());
     }
 
 

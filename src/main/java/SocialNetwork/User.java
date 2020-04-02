@@ -1,5 +1,6 @@
 package SocialNetwork;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,8 +11,11 @@ public class User {
     List<Post> postUserList = new ArrayList<>();
     List<Friend> friendUserList = new ArrayList<>();
 
+
     public User (String userName){
         this.userName = userName;
+
+
     }
 
     public void addPost(Post post){
@@ -24,20 +28,44 @@ public class User {
         friendUserList.add(userFriend);
 
     }
-    public List<Post> friendsPostList(){
+    public List<Post> friendsPostList(){  //lista d epost de cada uno de los friends
+        List<Post> temporalPost = new ArrayList<>();
         for (Friend userFriend : friendUserList) {
-            return userFriend.friendsPostList();
+            List<Post> lista = userFriend.getPostsFriend();
+            temporalPost.addAll(lista);
+        }
+        return temporalPost;
+    }/*public List<Post> friendsPostList(){  //lista d epost de cada uno de los friends
+        for (Friend userFriend : friendUserList) {
+            return userFriend.friendsPostList1();
+        }
+        return getPosts();
+    }*/
+
+    /*public List<Post> friendsPostList1(){
+        for (User user : userList) {
+            return user.getPosts();
         }
         return null;
+    }*/
+
+
+    public List<Post> allPostsForWall(){
+        List<Post> temporalList = new ArrayList<>();
+        //juntar mis post con post de friends
+        temporalList.addAll(getPosts());
+        temporalList.addAll(friendsPostList());
+        return temporalList;
+        //throw new UnsupportedOperationException();
     }
 
 
 
-    public List<Post> getPosts(){
+    public List<Post> getPosts(){ //lista de post de este usuario
         return new ArrayList<Post>(postUserList);
     }
-    public List<Friend> getFriends() {
 
+    public List<Friend> getFriends() {
         return new ArrayList<Friend>(friendUserList);}
 
 
@@ -53,5 +81,10 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(userName);
+    }
+
+    @Override
+    public String toString() {
+        return userName + "-";
     }
 }

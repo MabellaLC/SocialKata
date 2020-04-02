@@ -7,7 +7,7 @@ public class ParseCommand {
     //Delega a otras clases para que hagan sus operaciones
     private final String POST_SYMBOL = " -> ";
     private final String FOLLOWS_SYMBOL = " follows ";
-    private final String WALL_SYMBOL = " wall ";
+    private final String WALL_SYMBOL = " wall";
 
     private OutputConsole console;
     private Users users;
@@ -51,7 +51,7 @@ public class ParseCommand {
             List<Post> userPostWall = users.findAllPostForWall(user);
 
             for (Post post: userPostWall) {
-                console.printLine(post.toString());
+                console.printLine(post.toStringNamePlusPostMessage());
             }
             return;
         }

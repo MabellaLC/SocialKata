@@ -38,9 +38,9 @@ public class ParseCommandShould_2Step {
         users = mock(Users.class);
         //creamos una fake list de post que sera el retorno de la función findPostUser
         List<Post> postList = new ArrayList<>();
-        postList.add(new Post("Hola team"));
-        postList.add(new Post("Eiiii"));
-        postList.add(new Post("How are you?"));
+        postList.add(new Post("Hola team", "Miriam"));
+        postList.add(new Post("Eiiii", "Miriam"));
+        postList.add(new Post("How are you?", "Miriam"));
 
         //fake de la función de findPostUser amb el seu retorn sense implementar a la clase, ja que fem mock
         //en este momento esta función retorna una ¡Excepción!
@@ -84,23 +84,21 @@ public class ParseCommandShould_2Step {
     public void check_process_command_wall(){
         //mockeamos users para falsear el contenido de la clase
         users = mock(Users.class);
+
         //creamos una fake list de post que sera el retorno de la función findAllPostForWall
         List<Post> postList = new ArrayList<>();
-        postList.add(new Post("Mimi - Hola team"));
-        postList.add(new Post("Sandra - How are you?"));
+        postList.add(new Post("Hola team", "Miriam"));
+        postList.add(new Post("How are you?", "Sandra"));
+
         //fake de la función de findAllPostForWall amb el seu retorn sense implementar a la clase, ja que fem mock
         //en este momento esta función retorna una ¡Excepción!
         when(users.findAllPostForWall(new User("Miriam"))).thenReturn(postList);
 
-        //pasem comandos
         ParseCommand parseCommand = new ParseCommand(consoleOutput, users);
-        //introducimos varios post de dos usuarios
+
         parseCommand.parseCommand("Miriam -> Hola team");
-        //añadimos sandra a la lista de amigos
         parseCommand.parseCommand("Miriam follows Sandra");
         parseCommand.parseCommand("Sandra -> How are you?");
-        //nombre + wall nos deberia retornar una lista de post de todos los amigos y la mia propia
-        //si no existe el usuario no devuelve nada
         parseCommand.parseCommand("Miriam wall");
 
 

@@ -5,11 +5,18 @@ import java.util.Objects;
 public class Post {
 
     private String postMessage;
+    private String userName;
 
-    public Post(String postMessage) {
+    public Post(String postMessage, String userName) {
 
         this.postMessage = postMessage;
+        this.userName = userName;
     }
+
+    public String toStringNamePlusPostMessage() {
+        return userName + " - " + postMessage;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -28,4 +35,5 @@ public class Post {
     public String toString() {
         return postMessage;
     }
+
 }
